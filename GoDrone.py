@@ -32,6 +32,8 @@ def updateData():
                 channels = dataFromClient[4:29]
         elif(cmd == "BEAT"):
             print("BEAT")
+        elif(cmd == "HAND"):
+            server_socket.sendto(b"HAND",(address[0],address[1]))
 def sendSBUSData():
     while True:
         global channels
