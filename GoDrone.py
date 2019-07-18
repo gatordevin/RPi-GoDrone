@@ -12,7 +12,7 @@ print ("UDPServer Waiting for client on port 6666")
 channels = []
 newChannels = [1024] * 16
 timeSent = 0
-def updateData(self):
+def updateData():
     while True:
         # Update joystick data
         dataFromClient, address = server_socket.recvfrom(256)
@@ -104,3 +104,5 @@ def sendSBUSData(chan):
 
     else:
         None
+while True:
+    updateData()
