@@ -30,13 +30,13 @@ def updateData():
             if(checksum1 == dataFromClient[36] and checksum2 == dataFromClient[37]):
                 channels = dataFromClient[4:36]
                 chan = []
-                for i in range(0,len(self.channels),2):
+                for i in range(0,len(channels),2):
                     LSB = channels[i]
                     MSB = channels[i+1] << 8
                     num = int(LSB + MSB)
 
                     #if(i == 4):
-                    #     print(self.height)
+                    #     print(height)
 
                     chan.append(num)
                 channels = chan
@@ -49,11 +49,11 @@ def updateData():
                 ser.write(create_SBUS(newChannels))
                 newChannels = [1024] * 16
             
-def bit_not(self, n, numbits=8):
+def bit_not(n, numbits=8):
     return (1 << numbits) - 1 - n
 
 
-def create_SBUS(self, chan):
+def create_SBUS(chan):
     data = bytearray(25)
 
     data[0] = 0x0f  # start byte
@@ -65,7 +65,7 @@ def create_SBUS(self, chan):
         ch &= 0x7ff
         remaining_bits = 11
         while remaining_bits:
-            mask = self.bit_not(0xffff >> available_bits << available_bits, 16)
+            mask = bit_not(0xffff >> available_bits << available_bits, 16)
             enc = (ch & mask) << (8 - available_bits)
             data[current_byte] |= enc
 
@@ -91,13 +91,13 @@ def set_channel(chan, data):
     newChannels[chan] = data & 0x07ff
 
 def update_channel(chan, value):
-    set_channel(chan, self.mapData(value))
+    set_channel(chan, mapData(value))
 
 def mapData(n):
     return int((819 * ((n - 1500) / 500)) + 992)
 
 def sendSBUSData(chan):
-    if (time.time() - self.timeSent < 1):
+    if (time.time() - timeSent < 1):
         time.sleep(0.05)
         ser.write(create_SBUS(newChannels))
         newChannels = [1024] * 16
