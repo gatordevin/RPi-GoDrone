@@ -45,7 +45,7 @@ def updateData():
                 for i in range(len(channels)):
                     update_channel(i, channels[i])
                 time.sleep(0.02)
-                # print(self.newChannels)
+                print(newChannels)
                 # print(self.height)
                 ser.write(create_SBUS(newChannels))
                 newChannels = [1024] * 16
