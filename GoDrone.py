@@ -96,13 +96,5 @@ def update_channel(chan, value):
 def mapData(n):
     return int((819 * ((n - 1500) / 500)) + 992)
 
-def sendSBUSData(chan):
-    if (time.time() - timeSent < 1):
-        time.sleep(0.05)
-        ser.write(create_SBUS(newChannels))
-        newChannels = [1024] * 16
-
-    else:
-        None
 while True:
     updateData()
