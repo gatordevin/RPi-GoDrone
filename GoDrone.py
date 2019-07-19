@@ -14,10 +14,10 @@ newChannels = [1024] * 16
 timeSent = 0
 def updateData():
     # Update joystick data
-    print("AT TOP")
+    #print("AT TOP")
     dataFromClient, address = server_socket.recvfrom(256)
-    print("Recieved Data")
-    print(list(dataFromClient))
+    #print("Recieved Data")
+    #print(list(dataFromClient))
     global timeSent
     global newChannels
     timeSent = time.time()
@@ -47,11 +47,11 @@ def updateData():
             for i in range(len(channels)):
                 update_channel(i, channels[i])
             time.sleep(0.02)
-            print(newChannels)
+            #print(newChannels)
             # print(self.height)
-            print("Before Serial")
+            #print("Before Serial")
             ser.write(create_SBUS(newChannels))
-            print("after Serial")
+            #print("after Serial")
             newChannels = [1024] * 16
             
 def bit_not(n, numbits=8):
