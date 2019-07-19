@@ -49,7 +49,9 @@ def updateData():
             time.sleep(0.02)
             print(newChannels)
             # print(self.height)
+            print("Before Serial")
             ser.write(create_SBUS(newChannels))
+            print("after Serial")
             newChannels = [1024] * 16
             
 def bit_not(n, numbits=8):
