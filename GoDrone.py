@@ -13,43 +13,42 @@ channels = []
 newChannels = [1024] * 16
 timeSent = 0
 def updateData():
-    while True:
-        # Update joystick data
-        dataFromClient, address = server_socket.recvfrom(256)
-        print(list(dataFromClient))
-        global timeSent
-        global newChannels
-        timeSent = time.time()
-        cmd = ""
-        for i in range(0,4):
-            cmd += chr(dataFromClient[i])
-        if(cmd == "SBUS"):
-            checksum1 = 0
-            for byte in dataFromClient:
-                checksum1 = checksum1 ^ byte
-            checksum1 = checksum1 & 0xFE
-            checksum2 = (~checksum1) & 0xFE
-            if(checksum1 == dataFromClient[36] and checksum2 == dataFromClient[37]):
-                channels = dataFromClient[4:36]
-                chan = []
-                for i in range(0,len(channels),2):
-                    LSB = channels[i]
-                    MSB = channels[i+1] << 8
-                    num = int(LSB + MSB)
+    # Update joystick data
+    dataFromClient, address = server_socket.recvfrom(256)
+    print(list(dataFromClient))
+    global timeSent
+    global newChannels
+    timeSent = time.time()
+    cmd = ""
+    for i in range(0,4):
+        cmd += chr(dataFromClient[i])
+    if(cmd == "SBUS"):
+        checksum1 = 0
+        for byte in dataFromClient:
+            checksum1 = checksum1 ^ byte
+        checksum1 = checksum1 & 0xFE
+        checksum2 = (~checksum1) & 0xFE
+        if(checksum1 == dataFromClient[36] and checksum2 == dataFromClient[37]):
+            channels = dataFromClient[4:36]
+            chan = []
+            for i in range(0,len(channels),2):
+                LSB = channels[i]
+                MSB = channels[i+1] << 8
+                num = int(LSB + MSB)
 
-                    #if(i == 4):
-                    #     print(height)
+                #if(i == 4):
+                #     print(height)
 
-                    chan.append(num)
-                channels = chan
-                #print(self.channels)
-                for i in range(len(channels)):
-                    update_channel(i, channels[i])
-                time.sleep(0.02)
-                print(newChannels)
-                # print(self.height)
-                ser.write(create_SBUS(newChannels))
-                newChannels = [1024] * 16
+                chan.append(num)
+            channels = chan
+            #print(self.channels)
+            for i in range(len(channels)):
+                update_channel(i, channels[i])
+            time.sleep(0.02)
+            print(newChannels)
+            # print(self.height)
+            ser.write(create_SBUS(newChannels))
+            newChannels = [1024] * 16
             
 def bit_not(n, numbits=8):
     return (1 << numbits) - 1 - n
