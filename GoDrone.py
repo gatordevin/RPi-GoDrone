@@ -14,7 +14,9 @@ newChannels = [1024] * 16
 timeSent = 0
 def updateData():
     # Update joystick data
+    print("AT TOP")
     dataFromClient, address = server_socket.recvfrom(256)
+    print("Recieved Data")
     print(list(dataFromClient))
     global timeSent
     global newChannels
