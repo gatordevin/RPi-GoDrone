@@ -16,6 +16,7 @@ def updateData():
     while True:
         # Update joystick data
         dataFromClient, address = server_socket.recvfrom(256)
+        print(list(dataFromClient))
         global timeSent
         global newChannels
         timeSent = time.time()
